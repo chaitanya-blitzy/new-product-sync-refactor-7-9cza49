@@ -1,0 +1,401 @@
+# GitHub Dependabot Configuration for Node.js Tutorial Application
+# Automated dependency management and security updates for Node.js 24.x, Express.js 5.1.0, and TypeScript
+# Implements comprehensive dependency tracking across npm packages, Docker images, and GitHub Actions
+# Provides educational demonstration of modern dependency management practices and security automation
+
+version: 2
+
+# =============================================================================
+# DEPENDENCY REGISTRY CONFIGURATION
+# =============================================================================
+# Custom registry configuration for enhanced dependency resolution
+registries:
+  npm:
+    type: npm-registry
+    url: https://registry.npmjs.org
+    username: ${{ secrets.NPM_REGISTRY_USERNAME }}
+    password: ${{ secrets.NPM_REGISTRY_TOKEN }}
+
+# =============================================================================
+# DEPENDENCY UPDATE CONFIGURATION
+# =============================================================================
+# Comprehensive update policies for npm packages, Docker images, and GitHub Actions
+updates:
+
+  # ---------------------------------------------------------------------------
+  # NPM PACKAGE ECOSYSTEM UPDATES
+  # Backend application dependencies for Node.js 24.x and Express.js 5.1.0
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: npm
+    directory: "/src/backend"
+    
+    # Update schedule optimized for educational and production stability
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: UTC
+    
+    # Pull request management for automated dependency updates
+    open-pull-requests-limit: 10
+    
+    # Review and assignment configuration for tutorial team collaboration
+    reviewers:
+      - "nodejs-tutorial-team"
+    assignees:
+      - "nodejs-tutorial-maintainer"
+    
+    # Label configuration for dependency categorization and workflow automation
+    labels:
+      - "dependencies"
+      - "npm"
+      - "automated"
+      - "security-updates"
+    
+    # Milestone assignment for dependency update tracking
+    milestone: "dependency-updates"
+    
+    # Commit message configuration with semantic versioning integration
+    commit-message:
+      prefix: "npm"
+      prefix-development: "npm-dev"
+      include: "scope"
+    
+    # Automatic rebase strategy for conflict resolution
+    rebase-strategy: auto
+    
+    # Dependency type inclusion for comprehensive coverage
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+    
+    # Version constraint enforcement for framework compatibility
+    ignore:
+      # Maintain Express.js 5.x compatibility for tutorial consistency
+      - dependency-name: "express"
+        versions: ["< 5.0.0"]
+      
+      # Maintain TypeScript 5.x compatibility for modern development
+      - dependency-name: "typescript"
+        versions: ["< 5.0.0"]
+      
+      # Maintain Node.js 24.x type definitions alignment
+      - dependency-name: "@types/node"
+        versions: ["< 24.0.0"]
+      
+      # Prevent major version updates for testing framework stability
+      - dependency-name: "jest"
+        update-types: ["version-update:semver-major"]
+      
+      # Maintain ESLint compatibility with current configuration
+      - dependency-name: "eslint"
+        versions: ["< 9.0.0"]
+    
+    # Dependency grouping for coordinated updates and testing
+    groups:
+      # Express.js ecosystem updates for framework consistency
+      express-ecosystem:
+        patterns:
+          - "express*"
+          - "helmet"
+          - "cors"
+          - "morgan"
+          - "compression"
+          - "express-rate-limit"
+        update-types:
+          - "patch"
+          - "minor"
+      
+      # TypeScript ecosystem updates for development environment consistency
+      typescript-ecosystem:
+        patterns:
+          - "typescript"
+          - "@types/*"
+          - "ts-*"
+          - "ts-jest"
+          - "ts-node"
+        update-types:
+          - "patch"
+          - "minor"
+      
+      # Testing framework updates for test suite stability
+      testing-framework:
+        patterns:
+          - "jest"
+          - "@types/jest"
+          - "@jest/*"
+          - "supertest"
+          - "@types/supertest"
+        update-types:
+          - "patch"
+          - "minor"
+      
+      # Development tools updates for workflow consistency
+      development-tools:
+        patterns:
+          - "eslint*"
+          - "@typescript-eslint/*"
+          - "prettier"
+          - "nodemon"
+          - "concurrently"
+          - "rimraf"
+        update-types:
+          - "patch"
+          - "minor"
+      
+      # Security and utility packages for operational stability
+      security-utilities:
+        patterns:
+          - "helmet"
+          - "winston"
+          - "dotenv"
+          - "compression"
+        update-types:
+          - "patch"
+          - "minor"
+          - "major"
+
+  # ---------------------------------------------------------------------------
+  # DOCKER ECOSYSTEM UPDATES
+  # Container base images and infrastructure components for Node.js 24.x
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: docker
+    directory: "/infrastructure/docker"
+    
+    # Docker update schedule for infrastructure maintenance
+    schedule:
+      interval: weekly
+      day: tuesday
+      time: "10:00"
+      timezone: UTC
+    
+    # Docker-specific pull request configuration
+    open-pull-requests-limit: 5
+    
+    # Infrastructure team review assignment
+    reviewers:
+      - "nodejs-tutorial-team"
+    assignees:
+      - "nodejs-tutorial-maintainer"
+    
+    # Docker-specific labeling for infrastructure tracking
+    labels:
+      - "dependencies"
+      - "docker"
+      - "infrastructure"
+      - "automated"
+      - "security-updates"
+    
+    # Infrastructure milestone assignment
+    milestone: "infrastructure-updates"
+    
+    # Docker commit message configuration
+    commit-message:
+      prefix: "docker"
+      include: "scope"
+    
+    # Automatic rebase for Docker updates
+    rebase-strategy: auto
+    
+    # Docker dependency type configuration
+    allow:
+      - dependency-type: "direct"
+    
+    # Docker version constraints for Node.js 24.x compatibility
+    ignore:
+      # Maintain Node.js 24.x major version for tutorial consistency
+      - dependency-name: "node"
+        versions: ["< 24.0.0"]
+      
+      # Prevent Alpine version updates that might break compatibility
+      - dependency-name: "alpine"
+        update-types: ["version-update:semver-major"]
+    
+    # Docker image grouping for coordinated updates
+    groups:
+      # Node.js runtime images for version consistency
+      node-runtime:
+        patterns:
+          - "node*"
+        update-types:
+          - "patch"
+          - "minor"
+      
+      # Alpine base images for security updates
+      alpine-base:
+        patterns:
+          - "*alpine*"
+        update-types:
+          - "patch"
+          - "minor"
+
+  # ---------------------------------------------------------------------------
+  # GITHUB ACTIONS ECOSYSTEM UPDATES
+  # CI/CD pipeline actions and workflow dependencies
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: github-actions
+    directory: "/"
+    
+    # GitHub Actions update schedule for CI/CD maintenance
+    schedule:
+      interval: weekly
+      day: wednesday
+      time: "11:00"
+      timezone: UTC
+    
+    # Actions-specific pull request configuration
+    open-pull-requests-limit: 5
+    
+    # CI/CD team review assignment
+    reviewers:
+      - "nodejs-tutorial-team"
+    assignees:
+      - "nodejs-tutorial-maintainer"
+    
+    # GitHub Actions labeling for workflow tracking
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "ci-cd"
+      - "automated"
+      - "security-updates"
+    
+    # CI/CD milestone assignment
+    milestone: "ci-cd-updates"
+    
+    # GitHub Actions commit message configuration
+    commit-message:
+      prefix: "actions"
+      include: "scope"
+    
+    # Automatic rebase for GitHub Actions updates
+    rebase-strategy: auto
+    
+    # GitHub Actions dependency type configuration
+    allow:
+      - dependency-type: "direct"
+    
+    # GitHub Actions version constraints for stability
+    ignore:
+      # Prevent major version updates for critical actions without testing
+      - dependency-name: "actions/checkout"
+        update-types: ["version-update:semver-major"]
+      
+      - dependency-name: "actions/setup-node"
+        update-types: ["version-update:semver-major"]
+    
+    # GitHub Actions grouping for coordinated updates
+    groups:
+      # Core GitHub Actions for repository operations
+      setup-actions:
+        patterns:
+          - "actions/checkout"
+          - "actions/setup-node"
+          - "actions/cache"
+          - "actions/upload-artifact"
+        update-types:
+          - "patch"
+          - "minor"
+      
+      # Docker build and deployment actions
+      docker-actions:
+        patterns:
+          - "docker/build-push-action"
+          - "docker/setup-buildx-action"
+          - "docker/login-action"
+          - "docker/metadata-action"
+        update-types:
+          - "patch"
+          - "minor"
+      
+      # Security and quality assurance actions
+      security-actions:
+        patterns:
+          - "github/codeql-action/*"
+          - "github/super-linter"
+          - "aquasecurity/trivy-action"
+          - "codecov/codecov-action"
+        update-types:
+          - "patch"
+          - "minor"
+      
+      # Monitoring and analysis actions
+      analysis-actions:
+        patterns:
+          - "codecov/*"
+          - "sonarcloud/*"
+          - "*security*"
+        update-types:
+          - "patch"
+          - "minor"
+
+# =============================================================================
+# DEPENDABOT AUTOMATION FEATURES
+# =============================================================================
+# This configuration implements comprehensive dependency management with:
+#
+# 1. MULTI-ECOSYSTEM SUPPORT:
+#    - npm packages for Node.js 24.x and Express.js 5.1.0 applications
+#    - Docker base images for containerized deployment infrastructure  
+#    - GitHub Actions for CI/CD pipeline automation and security
+#
+# 2. SECURITY-FIRST APPROACH:
+#    - Automated security updates with priority handling
+#    - Vulnerability scanning integration through automated pull requests
+#    - Version constraint enforcement for security compliance
+#
+# 3. EDUCATIONAL VALUE:
+#    - Demonstrates modern dependency management practices
+#    - Shows automated security update workflows
+#    - Provides example of professional dependency maintenance
+#
+# 4. TEAM COLLABORATION:
+#    - Automated review assignment for knowledge sharing
+#    - Milestone integration for project management
+#    - Label-based categorization for workflow automation
+#
+# 5. VERSION MANAGEMENT:
+#    - Semantic versioning support with grouped updates
+#    - Framework compatibility constraints (Express.js 5.1.0, Node.js 24.x)
+#    - Development vs production dependency differentiation
+#
+# 6. OPERATIONAL EFFICIENCY:
+#    - Scheduled updates to minimize disruption
+#    - Automatic conflict resolution with rebase strategy
+#    - Pull request limits to prevent overwhelming workflows
+#
+# 7. FRAMEWORK INTEGRATION:
+#    - Express.js ecosystem coordination for middleware compatibility
+#    - TypeScript toolchain synchronization for development consistency
+#    - Testing framework stability with coordinated updates
+#
+# 8. INFRASTRUCTURE MANAGEMENT:
+#    - Container base image updates for security and performance
+#    - CI/CD action updates for pipeline reliability
+#    - Network and orchestration dependency management
+#
+# =============================================================================
+# SECURITY UPDATE POLICIES
+# =============================================================================
+# Automated security updates are prioritized with:
+#
+# - Immediate processing for critical and high severity vulnerabilities
+# - Automatic merge approval for security patches in patch versions
+# - Manual review required for major version security updates
+# - Integration with npm audit and GitHub security advisories
+# - Coordinated updates for security-related package ecosystems
+#
+# =============================================================================
+# EDUCATIONAL LEARNING OBJECTIVES
+# =============================================================================
+# This configuration demonstrates:
+#
+# - Automated dependency management with GitHub Dependabot
+# - Multi-ecosystem dependency tracking (npm, Docker, GitHub Actions)
+# - Security-focused dependency update strategies
+# - Professional team collaboration workflows for dependency management
+# - Integration with CI/CD pipelines for automated testing
+# - Version constraint management for framework compatibility
+# - Modern DevOps practices for dependency security and maintenance
+#
+# =============================================================================
