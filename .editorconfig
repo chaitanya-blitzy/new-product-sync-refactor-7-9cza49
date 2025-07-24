@@ -1,0 +1,85 @@
+# EditorConfig configuration file for Node.js tutorial application
+# Establishes consistent coding standards, formatting rules, and editor behavior
+# across different development environments and IDEs for educational purposes
+# 
+# Supports comprehensive development toolchain:
+# - Node.js 24.x with npm 11.x package management
+# - Express.js 5.1.0 web framework development
+# - TypeScript 5.6.x with type safety requirements
+# - ESLint 9.15.0 code quality enforcement
+# - Prettier 3.3.3 code formatting integration
+# - Cross-platform development (Windows, macOS, Linux)
+#
+# Educational Value: Demonstrates professional EditorConfig setup for
+# multi-language Node.js projects with comprehensive file type coverage
+
+# Root declaration - prevents search for additional EditorConfig files
+# in parent directories, establishing this as the top-level configuration
+root = true
+
+# Universal settings for all files (*)
+# Applies consistent basic formatting across all file types in the project
+# Educational benefit: Demonstrates universal formatting principles
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# TypeScript and JavaScript files (*.{ts,tsx,js,jsx})
+# Modern JavaScript/TypeScript development standards for Node.js and Express.js
+# Integrates with TypeScript 5.6.x compiler and ESLint 9.15.0 configuration
+# Educational benefit: Industry-standard formatting for backend development
+[*.{ts,tsx,js,jsx}]
+indent_style = space
+indent_size = 2
+max_line_length = 100
+
+# JSON configuration files (*.json)
+# Consistent formatting for Node.js package management and configuration
+# Covers package.json, tsconfig.json, eslintrc.json, and other config files
+# Educational benefit: Professional JSON formatting for Node.js ecosystem
+[*.json]
+indent_style = space
+indent_size = 2
+
+# Markdown documentation files (*.{md,mdx})
+# Professional documentation formatting standards for educational content
+# Preserves trailing whitespace for Markdown line break semantics
+# Educational benefit: Proper documentation formatting for open-source projects
+[*.{md,mdx}]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = false
+
+# YAML configuration files (*.{yml,yaml})
+# CI/CD pipeline and infrastructure configuration formatting
+# Supports GitHub Actions workflows and Docker Compose files
+# Educational benefit: Proper YAML formatting for DevOps practices
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# Dockerfile container configuration ({Dockerfile,Dockerfile.*})
+# Container image definition and Docker configuration formatting
+# Supports containerized Node.js application deployment
+# Educational benefit: Docker configuration formatting for containerization
+[{Dockerfile,Dockerfile.*}]
+indent_style = space
+indent_size = 2
+
+# Shell script files (*.{sh,bash})
+# Build and deployment automation script formatting
+# Cross-platform shell script consistency for CI/CD workflows
+# Educational benefit: Shell script formatting for automation workflows
+[*.{sh,bash}]
+indent_style = space
+indent_size = 2
+
+# Configuration and environment files (*.{env,env.*,gitignore,dockerignore,editorconfig})
+# Project configuration files and environment variable templates
+# Maintains consistency across all configuration file types
+# Educational benefit: Comprehensive configuration file formatting
+[*.{env,env.*,gitignore,dockerignore,editorconfig}]
+indent_style = space
+indent_size = 2
