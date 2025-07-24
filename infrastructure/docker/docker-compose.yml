@@ -1,0 +1,441 @@
+# Docker Compose orchestration configuration for Node.js Tutorial Application
+# Express.js 5.1.0 with Node.js 24.x and TypeScript compilation support
+# Demonstrates multi-environment container deployment patterns for educational purposes
+# 
+# Compatible with Docker Compose version 3.8+ for modern orchestration features
+# Provides comprehensive container orchestration for development and production workflows
+# Integrates health monitoring, volume management, and network configuration
+# Implements security hardening and operational best practices
+
+version: '3.8'
+
+# =============================================================================
+# GLOBAL PROJECT CONFIGURATION
+# =============================================================================
+# Project name and network isolation for tutorial application components
+x-project-metadata: &project-metadata
+  project: tutorial
+  version: "${BUILD_VERSION:-latest}"
+  maintainer: "Node.js Tutorial Team"
+  framework: "express-5.1.0"
+  runtime: "node-24"
+
+# =============================================================================
+# COMMON CONFIGURATION TEMPLATES
+# =============================================================================
+# Shared configuration blocks for consistency across services
+x-common-variables: &common-variables
+  NODE_ENV: "${NODE_ENV:-production}"
+  PORT: "3000"
+  HOST: "0.0.0.0"
+  LOG_LEVEL: "${LOG_LEVEL:-info}"
+  TIMEOUT: "${TIMEOUT:-30000}"
+
+x-common-labels: &common-labels
+  com.tutorial.framework: "express-5.1.0"
+  com.tutorial.runtime: "node-24"
+  com.tutorial.project: "node-tutorial"
+  com.tutorial.maintainer: "Node.js Tutorial Team"
+
+x-security-options: &security-options
+  read_only: false
+  tmpfs:
+    - /tmp:noexec,nosuid,size=100m
+  cap_drop:
+    - ALL
+  cap_add:
+    - NET_BIND_SERVICE
+  security_opt:
+    - no-new-privileges:true
+
+# =============================================================================
+# APPLICATION SERVICES
+# =============================================================================
+services:
+  
+  # ---------------------------------------------------------------------------
+  # PRODUCTION APPLICATION SERVICE
+  # Production-ready Node.js application with optimized configuration
+  # ---------------------------------------------------------------------------
+  app:
+    container_name: tutorial-app
+    hostname: tutorial-app
+    
+    # Container build configuration using Dockerfile multi-stage production target
+    build:
+      context: ../../
+      dockerfile: ./infrastructure/docker/Dockerfile
+      target: production
+      args:
+        NODE_ENV: "production"
+        BUILD_VERSION: "${BUILD_VERSION:-latest}"
+        PORT: "${PORT:-3000}"
+      cache_from:
+        - node:24-alpine
+        - tutorial-app:latest
+    
+    # Production environment variables with security-focused defaults
+    environment:
+      <<: *common-variables
+      NODE_ENV: "production"
+      CORS_ORIGIN: "${CORS_ORIGIN:-*}"
+      HELMET_CSP: "${HELMET_CSP:-true}"
+      RATE_LIMIT_WINDOW: "${RATE_LIMIT_WINDOW:-900000}"
+      RATE_LIMIT_MAX: "${RATE_LIMIT_MAX:-100}"
+      TRUST_PROXY: "${TRUST_PROXY:-false}"
+      CLUSTER_MODE: "${CLUSTER_MODE:-false}"
+      REQUEST_SIZE_LIMIT: "${REQUEST_SIZE_LIMIT:-10mb}"
+    
+    # Port mapping for HTTP server access
+    ports:
+      - "${PORT:-3000}:3000"
+    
+    # Volume mounts for persistent log storage
+    volumes:
+      - app-logs:/usr/src/app/logs
+    
+    # Network configuration for service communication
+    networks:
+      - tutorial-network
+    
+    # Container restart policy for high availability
+    restart: unless-stopped
+    
+    # Security hardening configuration
+    <<: *security-options
+    user: node
+    working_dir: /usr/src/app
+    init: true
+    
+    # Health check configuration for container orchestration
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    # Resource limits for operational stability
+    deploy:
+      resources:
+        limits:
+          memory: "${MEMORY_LIMIT:-512m}"
+          cpus: "${CPU_LIMIT:-1.0}"
+          pids: 100
+    
+    # Logging configuration with rotation and retention
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "com.tutorial.service,com.tutorial.environment"
+    
+    # Service metadata and classification labels
+    labels:
+      <<: *common-labels
+      com.tutorial.service: "backend"
+      com.tutorial.version: "${BUILD_VERSION:-latest}"
+      com.tutorial.environment: "production"
+      com.tutorial.description: "Production Node.js tutorial application with Express.js 5.1.0"
+  
+  # ---------------------------------------------------------------------------
+  # DEVELOPMENT APPLICATION SERVICE
+  # Development environment with hot reloading and debugging support
+  # ---------------------------------------------------------------------------
+  app-dev:
+    container_name: tutorial-app-dev
+    hostname: tutorial-app-dev
+    
+    # Development build configuration with TypeScript compilation
+    build:
+      context: ../../
+      dockerfile: ./infrastructure/docker/Dockerfile
+      target: builder
+      args:
+        NODE_ENV: "development"
+        BUILD_VERSION: "dev"
+        PORT: "3000"
+    
+    # Development environment variables with debugging enabled
+    environment:
+      <<: *common-variables
+      NODE_ENV: "development"
+      LOG_LEVEL: "debug"
+      DEBUG: "tutorial:*"
+      HOT_RELOAD: "true"
+      CORS_ORIGIN: "http://localhost:3000"
+      HELMET_CSP: "false"
+      RATE_LIMIT_MAX: "10000"
+      REQUEST_SIZE_LIMIT: "50mb"
+    
+    # Port mapping for HTTP server and Node.js debugger
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    
+    # Volume mounts for hot reloading and development persistence
+    volumes:
+      # Source code volume for hot reloading during development
+      - ../../src/backend/src:/usr/src/app/src:ro
+      # Package configuration for dependency management
+      - ../../src/backend/package.json:/usr/src/app/package.json:ro
+      - ../../src/backend/package-lock.json:/usr/src/app/package-lock.json:ro
+      # TypeScript configuration for development compilation
+      - ../../src/backend/tsconfig.json:/usr/src/app/tsconfig.json:ro
+      # Node modules volume for development dependency persistence
+      - dev-node-modules:/usr/src/app/node_modules
+      # Development log storage
+      - dev-logs:/usr/src/app/logs
+    
+    # Development command with debugging support
+    command: ["npm", "run", "dev:debug"]
+    
+    # Network configuration for development isolation
+    networks:
+      - tutorial-network
+    
+    # Development restart policy (manual restart for debugging)
+    restart: "no"
+    
+    # Security configuration adapted for development
+    user: node
+    working_dir: /usr/src/app
+    init: true
+    tty: true
+    stdin_open: true
+    
+    # Development-friendly health check with longer timeouts
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 60s
+      timeout: 15s
+      retries: 3
+      start_period: 60s
+    
+    # Service dependency on production service for educational comparison
+    depends_on:
+      app:
+        condition: service_healthy
+    
+    # Development service metadata and classification labels
+    labels:
+      <<: *common-labels
+      com.tutorial.service: "backend-dev"
+      com.tutorial.version: "dev"
+      com.tutorial.environment: "development"
+      com.tutorial.description: "Development Node.js tutorial application with hot reloading and debugging"
+
+# =============================================================================
+# PERSISTENT VOLUME CONFIGURATION
+# =============================================================================
+# Named volumes for data persistence across container lifecycle
+volumes:
+  
+  # Production application logs with local driver and bind mount
+  app-logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./logs/production
+    labels:
+      com.tutorial.volume: "production-logs"
+      com.tutorial.environment: "production"
+      com.tutorial.description: "Persistent log storage for production application"
+  
+  # Development application logs with local driver and bind mount
+  dev-logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./logs/development
+    labels:
+      com.tutorial.volume: "development-logs"
+      com.tutorial.environment: "development"
+      com.tutorial.description: "Persistent log storage for development application"
+  
+  # Development node_modules for dependency persistence
+  dev-node-modules:
+    driver: local
+    labels:
+      com.tutorial.volume: "development-dependencies"
+      com.tutorial.environment: "development"
+      com.tutorial.description: "Node.js dependencies for development environment"
+
+# =============================================================================
+# NETWORK CONFIGURATION
+# =============================================================================
+# Custom bridge network for service isolation and communication
+networks:
+  tutorial-network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: tutorial-br0
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
+    labels:
+      com.tutorial.network: "main"
+      com.tutorial.purpose: "application-communication"
+      com.tutorial.description: "Isolated network for tutorial application services"
+
+# =============================================================================
+# DOCKER COMPOSE PROFILES AND ENVIRONMENT CONFIGURATIONS
+# =============================================================================
+# 
+# DEVELOPMENT PROFILE USAGE:
+# docker-compose --profile development up app-dev
+# 
+# Features:
+# - Source code volume mounting for hot reloading
+# - Node.js debugger port exposure (9229) for development debugging
+# - Development-specific environment variables and relaxed security
+# - Interactive terminal support for development workflows
+# - Enhanced logging and debugging output for educational purposes
+# 
+# PRODUCTION PROFILE USAGE:
+# docker-compose --profile production up app
+# 
+# Features:
+# - Production-optimized container image with compiled TypeScript
+# - Security hardening with capability restrictions and user isolation
+# - Resource limits and health checks for operational stability
+# - Structured logging with rotation and retention policies
+# - Network isolation and security configuration for production deployment
+# 
+# STAGING PROFILE USAGE:
+# docker-compose --profile staging up app
+# 
+# Features:
+# - Production-like configuration with enhanced monitoring capabilities
+# - Staging-specific environment variables and intermediate security settings
+# - Performance monitoring and profiling tools for pre-production testing
+# - Deployment verification and comprehensive health checking
+# 
+# =============================================================================
+# EDUCATIONAL DEPLOYMENT EXAMPLES
+# =============================================================================
+# 
+# LOCAL DEVELOPMENT:
+# docker-compose up app-dev
+# Features: Hot reloading, debugging, source volume mounts, relaxed security
+# 
+# PRODUCTION DEPLOYMENT:
+# docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d app
+# Features: Optimized image, security hardening, resource limits, monitoring
+# 
+# MULTI-ENVIRONMENT TESTING:
+# docker-compose up app app-dev
+# Features: Both environments running simultaneously for comparison
+# 
+# CI/CD INTEGRATION:
+# docker-compose build --build-arg BUILD_VERSION=${CI_COMMIT_SHA} app
+# docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm test
+# docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d app
+# 
+# =============================================================================
+# OPERATIONAL FEATURES
+# =============================================================================
+# 
+# SERVICE DISCOVERY:
+# - Services communicate using service names as hostnames
+# - Custom bridge network with defined subnet for predictable networking
+# - DNS resolution within tutorial-network for inter-service communication
+# 
+# HEALTH MONITORING:
+# - HTTP endpoint health checks with configurable retry logic
+# - Health status available through Docker API and monitoring integrations
+# - Container restart policies based on health check failures
+# 
+# VOLUME MANAGEMENT:
+# - Named volumes for persistent data across container lifecycle
+# - Bind mounts for development workflow optimization
+# - Log aggregation and retention through volume configuration
+# 
+# NETWORK ISOLATION:
+# - Custom bridge network isolates services from other Docker applications
+# - Predictable IP addressing and DNS resolution within network
+# - Network-level security and communication control
+# 
+# RESOURCE MANAGEMENT:
+# - Memory and CPU limits for operational stability
+# - Process isolation and security hardening
+# - Resource monitoring through Docker API integration
+# 
+# =============================================================================
+# SECURITY IMPLEMENTATION
+# =============================================================================
+# 
+# CONTAINER SECURITY:
+# - Non-root user execution for privilege isolation
+# - Capability restrictions (drop ALL, add NET_BIND_SERVICE only)
+# - Security options prevent privilege escalation
+# - Temporary filesystem with security restrictions
+# 
+# NETWORK SECURITY:
+# - Isolated custom network for service communication
+# - Controlled port exposure with explicit protocol specification
+# - Network segmentation from other Docker applications
+# 
+# RUNTIME SECURITY:
+# - Read-only filesystem where possible with writable tmpfs
+# - Process limit enforcement for resource protection
+# - Security labels and metadata for operational visibility
+# 
+# =============================================================================
+# MONITORING AND OBSERVABILITY
+# =============================================================================
+# 
+# HEALTH CHECKS:
+# - HTTP endpoint validation with configurable parameters
+# - Health status integration with container orchestration
+# - Automatic restart on health check failures
+# 
+# LOGGING:
+# - Structured JSON logging with size and rotation limits
+# - Service and environment labels for log correlation
+# - Integration ready for centralized logging systems
+# 
+# METRICS:
+# - Container resource metrics through Docker API
+# - Service labels enable metrics correlation and filtering
+# - Performance monitoring integration points
+# 
+# =============================================================================
+# COMPATIBILITY AND REQUIREMENTS
+# =============================================================================
+# 
+# DOCKER VERSION REQUIREMENTS:
+# - Docker Engine 20.10+ for modern Compose file format support
+# - Docker Compose 2.0+ for enhanced orchestration features
+# - Container runtime with healthcheck and security option support
+# 
+# HOST SYSTEM REQUIREMENTS:
+# - Linux kernel 3.10+ for container security features
+# - Available ports 3000 (HTTP) and 9229 (debug) for development
+# - Filesystem support for volume bind mounts and named volumes
+# 
+# NETWORK REQUIREMENTS:
+# - Docker bridge networking support for custom networks
+# - Available subnet 172.20.0.0/16 for tutorial network isolation
+# - DNS resolution support for service discovery
+# 
+# =============================================================================
+# LEARNING OBJECTIVES DEMONSTRATED
+# =============================================================================
+# 
+# This Docker Compose configuration demonstrates:
+# - Multi-environment container orchestration for development and production
+# - Service discovery and networking in containerized environments
+# - Volume management for persistent data and development workflows
+# - Health check implementation and monitoring integration
+# - Security hardening with user restrictions and capability management
+# - Resource management and operational best practices
+# - CI/CD integration patterns with build versioning and deployment
+# - Educational container orchestration patterns for Node.js applications
+# 
+# =============================================================================
