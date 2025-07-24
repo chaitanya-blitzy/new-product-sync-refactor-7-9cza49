@@ -1,0 +1,210 @@
+# Docker Build Context Optimization for Node.js Tutorial Application
+# Express.js 5.1.0 with TypeScript and Node.js 24.x
+# Excludes unnecessary files from Docker build context for optimal performance
+# Coordinates with Dockerfile multi-stage builds and security requirements
+# Build context root: ../../ (project root)
+
+# =============================================================================
+# VERSION CONTROL FILES
+# Git repository metadata and version control artifacts
+# =============================================================================
+
+.git/
+.gitignore
+.gitattributes
+.gitmodules
+.gitkeep
+*.git
+.github/
+
+# =============================================================================
+# DOCUMENTATION FILES
+# README files, documentation, and project metadata
+# =============================================================================
+
+README.md
+README.txt
+CHANGELOG.md
+CONTRIBUTING.md
+LICENSE
+LICENSE.txt
+docs/
+*.md
+*.txt
+
+# =============================================================================
+# DEVELOPMENT DEPENDENCIES
+# Node.js development dependencies and package manager artifacts
+# =============================================================================
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+package-lock.json.bak
+.pnpm-debug.log*
+
+# =============================================================================
+# BUILD ARTIFACTS
+# TypeScript compilation outputs and build-generated files
+# =============================================================================
+
+dist/
+build/
+out/
+lib/
+*.js
+*.js.map
+*.d.ts
+*.d.ts.map
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+.tscache/
+
+# =============================================================================
+# TESTING ARTIFACTS
+# Jest test coverage reports and testing framework cache
+# =============================================================================
+
+coverage/
+.nyc_output/
+junit.xml
+test-results.xml
+test-results/
+*.lcov
+.jest-cache/
+jest_*/
+__snapshots__/
+*.snap
+
+# =============================================================================
+# ENVIRONMENT CONFIGURATION
+# Environment variables and sensitive configuration files
+# =============================================================================
+
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.staging.local
+.env.*.local
+.env.backup
+config/local.json
+config/production.json
+secrets.json
+credentials.json
+
+# =============================================================================
+# DEVELOPMENT TOOLS
+# IDE configurations and development tool cache files
+# =============================================================================
+
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.eslintcache
+.stylelintcache
+.cache/
+.parcel-cache/
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# =============================================================================
+# LOGS AND RUNTIME
+# Application logs and runtime process files
+# =============================================================================
+
+logs/
+*.log
+log/
+pids/
+*.pid
+*.seed
+*.pid.lock
+lib-cov/
+
+# =============================================================================
+# SECURITY SENSITIVE
+# Private keys, certificates, and sensitive data files
+# =============================================================================
+
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+*.jks
+*.keystore
+private/
+secrets/
+ssl/
+certs/
+*.gpg
+*.asc
+
+# =============================================================================
+# TEMPORARY FILES
+# Temporary directories and files created during development
+# =============================================================================
+
+tmp/
+temp/
+.tmp/
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+*.orig
+
+# =============================================================================
+# OPERATING SYSTEM FILES
+# Platform-specific system files and metadata
+# =============================================================================
+
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# =============================================================================
+# CONTAINER SPECIFIC
+# Docker and container-related files
+# =============================================================================
+
+Dockerfile*
+docker-compose*.yml
+docker-compose*.yaml
+.dockerignore
+.docker/
+*.dockerfile
+
+# =============================================================================
+# SELECTIVE INCLUSION STRATEGY
+# Files that ARE included in build context:
+# - src/ directory with application source code
+# - package.json and package-lock.json for dependency installation
+# - tsconfig.json for TypeScript compilation
+# - Any other files explicitly needed for build process
+# =============================================================================
+
+# This .dockerignore works with multi-stage Dockerfile builds
+# Stage 1 (builder): Includes dev dependencies for TypeScript compilation
+# Stage 2 (production): Only includes compiled artifacts and production dependencies
+
+# =============================================================================
+# END OF DOCKERIGNORE
+# =============================================================================
