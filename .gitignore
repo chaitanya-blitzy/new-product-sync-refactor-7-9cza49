@@ -1,0 +1,380 @@
+# Node.js Tutorial Application - Root .gitignore
+# Express.js 5.1.0 with TypeScript and Node.js 24.x
+# Comprehensive project-wide file exclusion patterns
+# Coordinates with backend/.gitignore and infrastructure/.dockerignore
+# Educational tutorial application with production-ready practices
+
+# =============================================================================
+# OPERATING SYSTEM FILES
+# Platform-specific system files and metadata
+# Cross-platform compatibility for Windows, macOS, and Linux
+# =============================================================================
+
+# macOS system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux system files
+.fuse_hidden*
+.directory
+.Trash-*
+
+# =============================================================================
+# EDITOR AND IDE FILES
+# Development environment specific files and configurations
+# Personal preferences that should not be enforced across team
+# =============================================================================
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# JetBrains IDEs
+.idea/
+*.swp
+*.swo
+*~
+
+# Vim and Emacs
+.vim/
+.emacs.d/
+
+# Atom and Sublime Text
+.atom/
+.sublime-*
+*.sublime-project
+*.sublime-workspace
+
+# Project and settings files
+.project
+.classpath
+.settings/
+
+# =============================================================================
+# NODE.JS DEPENDENCIES
+# Package manager files and dependency cache
+# Node.js 24.x and npm 11.x specific patterns
+# =============================================================================
+
+# Dependency directories
+node_modules/
+
+# npm specific files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+package-lock.json.bak
+
+# pnpm package manager
+.pnpm-debug.log*
+
+# Yarn package manager cache
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# =============================================================================
+# TYPESCRIPT BUILD ARTIFACTS
+# Compiled JavaScript and TypeScript build outputs
+# ES2024 compilation target with Node.js 24.x compatibility
+# =============================================================================
+
+# Build output directories
+dist/
+build/
+lib/
+out/
+
+# TypeScript compilation outputs
+*.js
+*.js.map
+*.d.ts
+*.d.ts.map
+
+# TypeScript incremental build cache
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+.tscache/
+
+# Build artifacts
+*.tgz
+src/**/*.js
+src/**/*.js.map
+
+# =============================================================================
+# ENVIRONMENT CONFIGURATION
+# Environment variables and sensitive configuration
+# Security-first approach for credential protection
+# =============================================================================
+
+# Environment variable files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.staging.local
+.env.*.local
+.env.backup
+
+# Configuration files with sensitive data
+config/local.json
+config/production.json
+config/staging.json
+secrets.json
+credentials.json
+auth.json
+*.env
+.env.*
+
+# =============================================================================
+# TESTING ARTIFACTS
+# Jest coverage reports and testing framework cache
+# Jest 29.7.0 with ts-jest integration
+# =============================================================================
+
+# Code coverage reports
+coverage/
+.nyc_output/
+junit.xml
+test-results.xml
+test-results/
+*.lcov
+
+# Jest testing framework cache
+.coverage/
+.jest-cache/
+jest_*/
+__snapshots__/
+*.snap
+test-report.xml
+coverage-report/
+
+# =============================================================================
+# DEVELOPMENT TOOLS
+# Tool-specific cache and temporary files
+# ESLint, Prettier, and other development tool artifacts
+# =============================================================================
+
+# Linting and formatting caches
+.eslintcache
+.stylelintcache
+
+# Build tool caches
+.cache/
+.parcel-cache/
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+node_modules/.cache/
+
+# Bundler caches
+.webpack/
+.rollup.cache/
+.turbo/
+.next/
+.nuxt/
+
+# Configuration ignore files
+.prettierignore
+.eslintignore
+
+# =============================================================================
+# LOGS AND RUNTIME
+# Application logs and process files
+# Express.js and Node.js runtime artifacts
+# =============================================================================
+
+# Log directories and files
+logs/
+*.log
+log/
+
+# Process files
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage and build artifacts
+lib-cov/
+.grunt
+.lock-wscript
+
+# Runtime traces and profiling
+*.trace
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# =============================================================================
+# SECURITY SENSITIVE
+# Private keys, certificates, and sensitive data
+# Comprehensive security pattern coverage
+# =============================================================================
+
+# SSL certificates and private keys
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+*.jks
+*.keystore
+
+# Security directories
+private/
+secrets/
+ssl/
+certs/
+
+# Encryption and signing
+*.gpg
+*.asc
+*.p8
+*.der
+*.csr
+
+# =============================================================================
+# TEMPORARY FILES
+# Development temporary files and backups
+# Cross-platform temporary file patterns
+# =============================================================================
+
+# Temporary directories
+tmp/
+temp/
+.tmp/
+
+# Temporary file extensions
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+*.orig
+
+# Editor temporary files
+*.swp
+*.swo
+*~
+#*#
+.#*
+*.rej
+
+# =============================================================================
+# DATABASE FILES
+# Local database files and data storage
+# Development and testing database artifacts
+# =============================================================================
+
+# SQLite databases
+*.sqlite
+*.sqlite3
+*.db
+database.json
+data/
+db.json
+
+# Microsoft Access databases
+*.mdb
+*.accdb
+*.dbf
+*.ldb
+
+# =============================================================================
+# DOCUMENTATION ARTIFACTS
+# Generated documentation and reports
+# TypeDoc and other documentation build outputs
+# =============================================================================
+
+# Documentation build directories
+docs/build/
+docs/dist/
+api-docs/
+typedoc/
+jsdoc/
+
+# Archive files
+*.tgz
+*.tar.gz
+*.zip
+documentation/build/
+doc-gen/
+
+# =============================================================================
+# CONTAINERIZATION ARTIFACTS
+# Docker and container-related build artifacts
+# Container image layers and build cache
+# =============================================================================
+
+# Docker artifacts
+.docker/
+docker-compose.override.yml
+docker-compose.local.yml
+*.dockerfile.local
+.dockerignore.local
+
+# =============================================================================
+# CI/CD ARTIFACTS
+# Continuous integration and deployment artifacts
+# GitHub Actions and pipeline-specific files
+# =============================================================================
+
+# Local CI/CD overrides
+.github/workflows/local.yml
+.github/workflows/*.local.yml
+pipeline-artifacts/
+build-reports/
+deployment-logs/
+.ci-cache/
+
+# =============================================================================
+# PROJECT SPECIFIC EXCLUSIONS
+# Tutorial application specific patterns
+# =============================================================================
+
+# Express.js specific
+.express-cache/
+sessions/
+uploads/
+static/uploads/
+
+# TypeScript specific
+.tscache/
+tsconfig.build.tsbuildinfo
+
+# Jest specific
+.jest/
+
+# Nodemon specific
+.nodemonignore
+
+# Tutorial specific
+tutorial-artifacts/
+learning-materials/build/
+
+# =============================================================================
+# COORDINATION WITH COMPONENT-SPECIFIC IGNORE FILES
+# This root .gitignore coordinates with:
+# - src/backend/.gitignore (backend-specific patterns)
+# - infrastructure/docker/.dockerignore (container build optimization)
+# =============================================================================
+
+# =============================================================================
+# END OF ROOT GITIGNORE
+# =============================================================================
