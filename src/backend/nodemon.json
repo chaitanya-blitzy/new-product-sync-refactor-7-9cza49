@@ -1,0 +1,85 @@
+{
+  "watch": [
+    "src"
+  ],
+  "ext": "ts,js,json",
+  "ignore": [
+    "src/**/*.test.ts",
+    "src/**/*.spec.ts",
+    "dist/**/*",
+    "coverage/**/*",
+    "node_modules/**/*",
+    "*.log",
+    ".git/**/*",
+    ".env.local",
+    ".env.test",
+    "*.md",
+    "docs/**/*",
+    "build/**/*",
+    "tmp/**/*"
+  ],
+  "exec": "ts-node src/index.ts",
+  "env": {
+    "NODE_ENV": "development",
+    "PORT": "3000",
+    "DEBUG": "app:*"
+  },
+  "delay": 1000,
+  "restartable": "rs",
+  "verbose": true,
+  "signal": "SIGUSR2",
+  "colours": true,
+  "legacyWatch": false,
+  "pollingInterval": 100,
+  "events": {
+    "restart": "echo '🔄 Server restarting due to file changes...'",
+    "crash": "echo '💥 Server crashed - waiting for file changes before restart'",
+    "start": "echo '🚀 Server started successfully on port 3000'"
+  },
+  "nodeArgs": [
+    "--inspect=0.0.0.0:9229",
+    "--enable-source-maps",
+    "--experimental-specifier-resolution=node"
+  ],
+  "runOnChangeOnly": false,
+  "quiet": false,
+  "watch_file_extensions": true,
+  "stdin": true,
+  "stdout": true,
+  "stderr": true,
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true,
+    "experimentalSpecifierResolution": "node",
+    "compilerOptions": {
+      "target": "ES2024",
+      "module": "CommonJS",
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "strict": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "resolveJsonModule": true,
+      "sourceMap": true,
+      "inlineSourceMap": false,
+      "outDir": "./dist",
+      "rootDir": "./src",
+      "baseUrl": "./",
+      "paths": {
+        "@/*": ["src/*"]
+      }
+    }
+  },
+  "script": "src/index.ts",
+  "args": [],
+  "cwd": "./",
+  "killSignal": "SIGTERM",
+  "crashWaitTime": 1000,
+  "exitcrash": false,
+  "dump": false,
+  "spawn": true,
+  "readable": true,
+  "legacy": false,
+  "debounce": 300,
+  "throttle": 1000
+}
