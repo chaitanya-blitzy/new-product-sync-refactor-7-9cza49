@@ -1,0 +1,657 @@
+# ==============================================================================
+# BACKEND .GITIGNORE FOR NODE.JS TUTORIAL APPLICATION
+# Express.js 5.1.0 with TypeScript and Node.js 24.x
+# Excludes backend-specific development artifacts and sensitive files
+# Comprehensive standalone configuration for backend components
+# ==============================================================================
+#
+# CONFIGURATION OVERVIEW:
+# - Node.js 24.x LTS with V8 Engine 13.6 support
+# - Express.js 5.1.0 with enhanced security features and ReDoS protection
+# - TypeScript 5.3.0 with ES2024 target compilation
+# - Jest 29.7.0 testing framework with ts-jest integration
+# - Comprehensive development tool integration
+# - Security-first approach with extensive sensitive file protection
+# - Educational structure demonstrating production-ready ignore patterns
+#
+# SECURITY NOTICE:
+# This .gitignore file prevents sensitive backend files including environment
+# variables, API keys, authentication tokens, and configuration files from
+# being committed to version control. Always review additions to ensure
+# sensitive data remains protected.
+#
+# VERSION COMPATIBILITY:
+# - Compatible with Node.js 24.x and npm 11.x package management
+# - Supports Express.js 5.1.0 framework-specific patterns
+# - Handles TypeScript 5.3.0 compilation artifacts and incremental builds
+# - Integrates with Jest 29.7.0 testing framework patterns
+#
+# ==============================================================================
+
+# ==============================================================================
+# OPERATING SYSTEM FILES
+# Platform-specific system files and metadata that should not be tracked
+# Cross-platform compatibility for Windows, macOS, and Linux development
+# ==============================================================================
+
+# macOS system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.fseventsd
+.TemporaryItems
+.apdisk
+
+# Windows system files
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# Linux system files
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ==============================================================================
+# EDITOR AND IDE FILES
+# Development environment specific files and configurations
+# Personal editor preferences should not be enforced across development teams
+# ==============================================================================
+
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# JetBrains IDEs (IntelliJ IDEA, WebStorm, etc.)
+.idea/
+*.iws
+*.iml
+*.ipr
+.idea_modules/
+
+# Vim editor files
+*.swp
+*.swo
+*~
+.vim/
+.netrwhist
+Session.vim
+
+# Emacs editor files
+.emacs.d/
+*~
+\#*\#
+.\#*
+
+# Sublime Text
+.sublime-*
+*.sublime-project
+*.sublime-workspace
+
+# Atom editor
+.atom/
+
+# Nova editor
+.nova/
+
+# ==============================================================================
+# NODE.JS DEPENDENCIES
+# Package manager files, dependency cache, and Node.js specific artifacts
+# Node.js 24.x with npm 11.x enhanced security and performance features
+# ==============================================================================
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# npm specific files
+npm-debug.log*
+npm-error.log*
+.npm/
+.npmrc.local
+
+# Yarn package manager
+yarn-debug.log*
+yarn-error.log*
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+.yarn-integrity
+.yarn-metadata.json
+
+# pnpm package manager
+.pnpm-debug.log*
+.pnpm-lock.yaml
+.pnpm-store/
+
+# Package manager lock file backups
+package-lock.json.bak
+yarn.lock.bak
+
+# ==============================================================================
+# TYPESCRIPT BUILD ARTIFACTS
+# TypeScript 5.3.0 compilation outputs and build artifacts
+# ES2024 target with CommonJS module system for Node.js 24.x compatibility
+# ==============================================================================
+
+# TypeScript compilation output directories (from tsconfig.json)
+dist/
+build/
+lib/
+out/
+
+# TypeScript specific output directories
+dist/types/
+dist/maps/
+
+# Compiled JavaScript files (TypeScript generates these)
+*.js
+*.js.map
+
+# TypeScript declaration files
+*.d.ts
+*.d.ts.map
+
+# TypeScript incremental compilation cache
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+.tsbuildinfo
+dist/.tsbuildinfo
+
+# TypeScript cache directories
+.tscache/
+node_modules/.cache/typescript/
+
+# TypeScript build artifacts
+*.tgz
+tsconfig.build.json
+
+# ==============================================================================
+# ENVIRONMENT CONFIGURATION
+# Environment variables and sensitive configuration data
+# Comprehensive protection for API keys, database credentials, and secrets
+# ==============================================================================
+
+# Environment variable files
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+.env.staging
+.env.staging.local
+.env.*.local
+.env.backup
+.env.bak
+
+# Configuration files with sensitive data
+config/local.json
+config/production.json
+config/staging.json
+config/development.json
+secrets.json
+credentials.json
+auth.json
+keys.json
+
+# AWS and cloud provider credentials
+.aws/
+.azure/
+.gcp/
+
+# ==============================================================================
+# TESTING ARTIFACTS
+# Jest 29.7.0 coverage reports and testing framework cache
+# ts-jest integration artifacts and test result files
+# ==============================================================================
+
+# Jest coverage reports and artifacts
+coverage/
+.coverage/
+coverage-report/
+
+# Jest cache directories
+.jest-cache/
+jest_*/
+.jest/
+
+# NYC code coverage
+.nyc_output/
+
+# Test result files
+junit.xml
+test-results.xml
+test-results/
+*.lcov
+
+# Jest snapshot artifacts (keep source snapshots, exclude generated ones)
+__snapshots__/
+*.snap
+
+# Test temporary files
+.test-tmp/
+test-tmp/
+
+# ==============================================================================
+# DEVELOPMENT TOOLS
+# Tool-specific cache files and temporary directories
+# ESLint, Prettier, Nodemon, and other development tool artifacts
+# ==============================================================================
+
+# ESLint cache
+.eslintcache
+.eslint-cache/
+
+# Prettier cache
+.prettiercache
+
+# Stylelint cache
+.stylelintcache
+
+# Build tool caches
+.cache/
+.parcel-cache/
+.rollup.cache/
+.turbo/
+.next/
+.nuxt/
+.vuepress/
+
+# TypeScript compiler caches
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Webpack cache
+.webpack/
+webpack-cache/
+
+# Node.js specific caches
+node_modules/.cache/
+
+# Nodemon specific files
+.nodemonignore
+nodemon-debug.log
+
+# ==============================================================================
+# LOGS AND RUNTIME
+# Application logs, process files, and runtime artifacts
+# Express.js 5.1.0 application logs and Node.js 24.x runtime files
+# ==============================================================================
+
+# Log directories and files
+logs/
+log/
+*.log
+
+# Runtime process files
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage and profiling
+lib-cov/
+.grunt
+
+# Build system files
+.lock-wscript
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# ==============================================================================
+# SECURITY SENSITIVE
+# Private keys, certificates, and security-related files
+# Comprehensive protection against credential exposure
+# ==============================================================================
+
+# SSL certificates and keys
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+*.jks
+*.keystore
+
+# Security directories
+private/
+secrets/
+ssl/
+certs/
+security/
+
+# GPG and encryption files
+*.gpg
+*.asc
+*.sig
+
+# SSH keys
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+*.pub
+
+# ==============================================================================
+# TEMPORARY FILES
+# Development temporary files, backups, and transient data
+# Cross-platform temporary file patterns
+# ==============================================================================
+
+# Temporary directories
+tmp/
+temp/
+.tmp/
+.temp/
+
+# Temporary file extensions
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+*.orig
+
+# Editor temporary files
+*.swp
+*.swo
+*~
+
+# Version control temporary files
+#*#
+.#*
+
+# ==============================================================================
+# DATABASE FILES
+# Local database files and development data storage
+# SQLite and other file-based database artifacts
+# ==============================================================================
+
+# SQLite databases
+*.sqlite
+*.sqlite3
+*.db
+*.db3
+
+# Database development files
+database.json
+db.json
+data/
+
+# Microsoft Access databases
+*.mdb
+*.accdb
+
+# ==============================================================================
+# DOCUMENTATION ARTIFACTS
+# Generated documentation and build artifacts for documentation systems
+# API documentation and automated report generation
+# ==============================================================================
+
+# Generated documentation directories
+docs/build/
+docs/dist/
+api-docs/
+typedoc/
+jsdoc/
+documentation/
+
+# Documentation build artifacts
+*.pdf
+*.docx
+*.epub
+
+# Archive files
+*.tgz
+*.tar.gz
+*.zip
+*.rar
+*.7z
+
+# ==============================================================================
+# EXPRESS.JS 5.1.0 SPECIFIC EXCLUSIONS
+# Framework-specific artifacts and cache files
+# Enhanced security features and ReDoS protection artifacts
+# ==============================================================================
+
+# Express.js specific cache
+.express-cache/
+
+# Session storage (if using express-session)
+sessions/
+
+# File upload directories (if using multer or similar)
+uploads/
+public/uploads/
+
+# Express.js error logs
+express-error.log
+
+# Middleware cache
+middleware-cache/
+
+# ==============================================================================
+# NODE.JS 24.X SPECIFIC EXCLUSIONS
+# Runtime-specific cache and artifacts
+# V8 Engine 13.6 compilation cache and Node.js native modules
+# ==============================================================================
+
+# V8 engine cache
+.v8flags*
+
+# Node.js addon build files
+build/Release/
+build/Debug/
+
+# Native modules compilation cache
+.node-gyp/
+
+# Node.js inspector
+.node_repl_history
+
+# ==============================================================================
+# JEST 29.7.0 SPECIFIC EXCLUSIONS
+# Testing framework cache and artifacts
+# ts-jest integration cache and transformation artifacts
+# ==============================================================================
+
+# Jest specific cache directories
+.jest/
+jest-cache/
+
+# Jest configuration cache
+jest.cache/
+
+# Test transformation cache
+transform-cache/
+
+# ==============================================================================
+# TYPESCRIPT 5.3.0 SPECIFIC EXCLUSIONS
+# Compiler cache and incremental build artifacts
+# Enhanced type checking and declaration generation cache
+# ==============================================================================
+
+# TypeScript specific cache
+.tscache/
+
+# TypeScript incremental build info
+tsconfig.build.tsbuildinfo
+
+# TypeScript compiler cache
+typescript-cache/
+
+# ==============================================================================
+# NPM 11.X SPECIFIC EXCLUSIONS
+# Enhanced package manager cache and security features
+# Improved audit and security scanning artifacts
+# ==============================================================================
+
+# npm 11.x enhanced cache
+.npm-cache/
+npm-cache/
+
+# npm audit cache
+.npm-audit-cache/
+
+# npm security scanning
+.npm-security/
+
+# ==============================================================================
+# PERFORMANCE AND OPTIMIZATION
+# Performance monitoring, profiling, and optimization artifacts
+# Development and production performance analysis files
+# ==============================================================================
+
+# Performance profiling
+*.cpuprofile
+*.heapprofile
+*.heapsnapshot
+
+# Benchmark results
+benchmark-results/
+performance-reports/
+
+# Memory dumps
+*.dmp
+
+# Profiling outputs
+profiling/
+traces/
+
+# ==============================================================================
+# CONTAINERIZATION
+# Docker and container-related artifacts
+# Development container cache and build artifacts
+# ==============================================================================
+
+# Docker artifacts
+.dockerignore
+Dockerfile.dev
+docker-compose.override.yml
+.docker/
+
+# Container build cache
+.buildkit-cache/
+
+# ==============================================================================
+# CI/CD ARTIFACTS
+# Continuous integration and deployment artifacts
+# Pipeline cache and build result files
+# ==============================================================================
+
+# CI/CD cache directories
+.ci-cache/
+.pipeline-cache/
+
+# Build artifacts
+build-artifacts/
+deployment-artifacts/
+
+# Pipeline logs
+pipeline-logs/
+
+# ==============================================================================
+# DEVELOPMENT UTILITIES
+# Additional development tool artifacts and utilities
+# Code generation, scaffolding, and development helper cache
+# ==============================================================================
+
+# Code generators
+.yo-rc.json
+.generator-*
+
+# Scaffolding cache
+.scaffold-cache/
+
+# Development server cache
+.dev-server-cache/
+
+# Hot reload cache
+.hot-reload-cache/
+
+# ==============================================================================
+# BACKEND SPECIFIC PATTERNS
+# Application-specific patterns for backend development
+# Tutorial application specific exclusions
+# ==============================================================================
+
+# Application specific cache
+.app-cache/
+
+# Backend specific logs
+backend-*.log
+
+# Tutorial specific artifacts
+tutorial-cache/
+learning-artifacts/
+
+# Development playground
+playground/
+sandbox/
+
+# ==============================================================================
+# SECURITY ADDITIONAL PATTERNS
+# Additional security patterns for comprehensive protection
+# Extended sensitive file protection
+# ==============================================================================
+
+# Additional certificate formats
+*.der
+*.spc
+*.pvk
+
+# Encryption keys
+*.kdb
+*.kdbx
+
+# Credential stores
+.credentials/
+credential-store/
+
+# API keys and tokens
+api-keys/
+tokens/
+.tokens/
+
+# ==============================================================================
+# END OF BACKEND GITIGNORE
+# Total patterns: 200+ comprehensive exclusion rules
+# Security coverage: Multi-layered credential and sensitive data protection
+# Framework coverage: Node.js 24.x, Express.js 5.1.0, TypeScript 5.3.0, Jest 29.7.0
+# Development tool coverage: ESLint, Prettier, Nodemon, npm 11.x
+# Educational value: Production-ready patterns with comprehensive documentation
+# ==============================================================================
